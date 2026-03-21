@@ -1,9 +1,12 @@
 import StreakBanner from "@/components/StreakBanner";
+import { useTimer } from "@/hooks/useTimer";
 import { Link } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
+  const { elapsedSec, isRunning, start, pause, resume } = useTimer();
+
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.container}>
