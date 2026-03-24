@@ -2,6 +2,7 @@ import { Session } from "@/types/session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SESSIONS_KEY = "selah:sessions";
+const IN_PROGRESS_KEY = "selah:inProgress";
 
 export async function saveSession(session: Session): Promise<void> {
   const existing = await getAllSessions();
@@ -24,4 +25,16 @@ export async function getSessionsByDate(date: string): Promise<Session[]> {
     // .slice(0, 10) extracts just the "YYYY-MM-DD" part
     return session.startAt.slice(0, 10) === date;
   });
+}
+
+export async function markSessionInProgress(startAt: string): Promise<void> {
+  await AsyncStorage.setItem(IN_PROGRESS_KEY, startAt);
+}
+
+export async function clearSessionInProgress(): Promise<void> {
+  await AsyncStorage.removeItem(IN_PROGRESS_KEY);
+}
+
+export async function getInterruptedSession(): Promise<string | null> {
+  return AsyncStorage.getItem(IN_PROGRESS_KEY);
 }

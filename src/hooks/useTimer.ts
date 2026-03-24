@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 interface UseTimerReturn {
   elapsedSec: number;
@@ -22,23 +22,23 @@ export function useTimer(): UseTimerReturn {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // – Helpers
-  const stopInterval = useCallback(() => {
+  const startTicking = useCallback(() => {
+    if (intervalRef.current) return; // already ticking
+
+    intervalRef.current = setInterval(() => {
+      if (startedAtRef.current === null) return;
+      const segmentMs = Date.now() - startedAtRef.current;
+      const total = accumulatedRef.current + segmentMs;
+      setElapsedSec(Math.floor(total / 1000));
+    }, 250);
+  }, []);
+
+  const stopTicking = useCallback(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
   }, []);
-
-  const startInterval = useCallback(() => {
-    stopInterval();
-
-    intervalRef.current = setInterval(() => {
-      if (startedAtRef.current === null) return;
-      const secondsSinceStart = (Date.now() - startedAtRef.current) / 1000;
-      const total = accumulatedRef.current + secondsSinceStart;
-      setElapsedSec(Math.floor(total));
-    }, 250);
-  }, [stopInterval]);
 
   // – Public API
   const start = useCallback(() => {
@@ -46,44 +46,46 @@ export function useTimer(): UseTimerReturn {
     startedAtRef.current = Date.now();
     setElapsedSec(0);
     setIsRunning(true);
-  }, []);
+    startTicking();
+  }, [startTicking]);
 
   const pause = useCallback(() => {
-    if (!isRunning || startedAtRef.current === null) return;
-    const secondsSinceStart = (Date.now() - startedAtRef.current) / 1000;
-    const frozenWholeSeconds = Math.floor(
-      accumulatedRef.current + secondsSinceStart,
-    );
-    accumulatedRef.current = frozenWholeSeconds;
+    if (startedAtRef.current === null) return;
+
+    accumulatedRef.current += Date.now() - startedAtRef.current;
     startedAtRef.current = null;
     setIsRunning(false);
-  }, [isRunning]);
+    stopTicking();
+  }, [stopTicking]);
 
   const resume = useCallback(() => {
-    if (isRunning) return;
+    if (startedAtRef.current !== null) return;
+
+    // New segment
     startedAtRef.current = Date.now();
     setIsRunning(true);
-  }, [isRunning]);
+    startTicking();
+  }, [startTicking]);
 
   const reset = useCallback(() => {
-    stopInterval();
+    stopTicking();
     accumulatedRef.current = 0;
     startedAtRef.current = null;
     setElapsedSec(0);
     setIsRunning(false);
-  }, [stopInterval]);
+  }, [stopTicking]);
 
-  // – Effect: manage interval based on isRunning
-  useEffect(() => {
-    if (isRunning) {
-      startInterval();
-    } else {
-      stopInterval();
-    }
+  //   // – Effect: manage interval based on isRunning
+  //   useEffect(() => {
+  //     if (isRunning) {
+  //       startTicking();
+  //     } else {
+  //       stopTicking();
+  //     }
 
-    // cleanup on unmount, avoids memory leaks
-    return () => stopInterval();
-  }, [isRunning, startInterval, stopInterval]);
+  //     // cleanup on unmount, avoids memory leaks
+  //     return () => stopTicking();
+  //   }, [isRunning, startTicking, stopTicking]);
 
   return { elapsedSec, isRunning, start, pause, resume, reset };
 }

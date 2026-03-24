@@ -1,4 +1,4 @@
-import { saveSession } from "@/storage/sessions";
+import { clearSessionInProgress, saveSession } from "@/storage/sessions";
 import { updateStreak } from "@/storage/streak";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
@@ -73,7 +73,7 @@ export default function FinishScreen() {
         leaveAppCount: leaveAppCountNum,
         reflection: reflectionText,
       });
-
+      await clearSessionInProgress();
       await updateStreak(getTodayLocalDate());
 
       router.replace("/"); // navigate back to home after saving

@@ -1,7 +1,9 @@
-import { StyleSheet, Text } from "react-native";
+import { useEffect, useRef } from "react";
+import { Animated, StyleSheet } from "react-native";
 
 interface Props {
   elapsedSec: number;
+  isRunning: boolean;
 }
 
 function formatTime(totalSeconds: number): string {
@@ -15,8 +17,31 @@ function formatTime(totalSeconds: number): string {
   return `${mm}:${ss}`;
 }
 
-export default function Timer({ elapsedSec }: Props) {
-  return <Text style={styles.display}>{formatTime(elapsedSec)}</Text>;
+export default function Timer({ elapsedSec, isRunning }: Props) {
+  const scale = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    if (!isRunning) return;
+
+    Animated.sequence([
+      Animated.timing(scale, {
+        toValue: 0.995,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scale, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [elapsedSec]);
+
+  return (
+    <Animated.Text style={[styles.display, { transform: [{ scale }] }]}>
+      {formatTime(elapsedSec)}
+    </Animated.Text>
+  );
 }
 
 const styles = StyleSheet.create({

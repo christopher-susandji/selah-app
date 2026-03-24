@@ -19,6 +19,8 @@ export default function SessionScreen() {
   // – State
   const [distractionCount, setDistractionCount] = useState(0);
   const startAtRef = useRef<string>(new Date().toISOString()); // store once
+  const [showReturnCue, setShowReturnCue] = useState(false);
+  const cueTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // – Effects
   useEffect(() => {
@@ -53,6 +55,12 @@ export default function SessionScreen() {
   // – Handlers
   function handleDistraction() {
     setDistractionCount((count) => count + 1);
+
+    setShowReturnCue(true);
+    if (cueTimeoutRef.current) clearTimeout(cueTimeoutRef.current);
+    cueTimeoutRef.current = setTimeout(() => {
+      setShowReturnCue(false);
+    }, 3000);
   }
 
   function handleFinish() {
@@ -67,6 +75,12 @@ export default function SessionScreen() {
       },
     });
   }
+
+  useEffect(() => {
+    return () => {
+      if (cueTimeoutRef.current) clearTimeout(cueTimeoutRef.current);
+    };
+  }, []);
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -86,8 +100,12 @@ export default function SessionScreen() {
 
         {/* Middle section: timer + distraction button */}
         <View style={styles.middle}>
-          <Timer elapsedSec={elapsedSec} />
-          <Text style={styles.cue}>Stay with the Scriptures.</Text>
+          <Timer elapsedSec={elapsedSec} isRunning={isRunning} />
+          <Text style={styles.cue}>
+            {showReturnCue
+              ? "Gently return to the Scriptures."
+              : "Stay with the Scriptures."}
+          </Text>
           <DistractionButton
             count={distractionCount}
             onPress={handleDistraction}

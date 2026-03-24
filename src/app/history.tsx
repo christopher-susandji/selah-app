@@ -3,16 +3,17 @@ import StreakBanner from "@/components/StreakBanner";
 import { getAllSessions } from "@/storage/sessions";
 import { getStreakInfo } from "@/storage/streak";
 import { Session, StreakInfo } from "@/types/session";
-import { useFocusEffect } from "expo-router";
+import { Stack, useFocusEffect } from "expo-router";
+import { ExtendedStackNavigationOptions } from "expo-router/build/layouts/StackClient";
 import { useCallback, useState } from "react";
 import {
   ActivityIndicator,
   SectionList,
   StyleSheet,
   Text,
-  View
+  View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 interface SectionData {
   title: string;
@@ -104,25 +105,27 @@ export default function HistoryScreen() {
   // Handle loading state
   if (isLoading) {
     return (
-      <SafeAreaView style={styles.safe}>
+      <SafeAreaProvider style={styles.safe}>
+        <Stack.Screen options={screenOptions} />
         <View style={styles.centered}>
           <ActivityIndicator size="large" color="#3D2C4E" />
         </View>
-      </SafeAreaView>
+      </SafeAreaProvider>
     );
   }
 
   // Handle empty state
   if (sections.length === 0) {
     return (
-      <SafeAreaView style={styles.safe}>
+      <SafeAreaProvider style={styles.safe}>
+        <Stack.Screen options={screenOptions} />
         <View style={styles.centered}>
           <Text style={styles.emptyHeading}>No sessions yet</Text>
           <Text style={styles.emptySubtext}>
             Ready to start your first session?
           </Text>
         </View>
-      </SafeAreaView>
+      </SafeAreaProvider>
     );
   }
 
@@ -142,7 +145,8 @@ export default function HistoryScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaProvider style={styles.safe}>
+      <Stack.Screen options={screenOptions} />
       <SectionList
         sections={sections}
         keyExtractor={(item) => item.id}
@@ -160,9 +164,22 @@ export default function HistoryScreen() {
         contentContainerStyle={styles.listContent}
         stickySectionHeadersEnabled
       />
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
+
+const screenOptions: ExtendedStackNavigationOptions = {
+  headerShown: true,
+  title: "History",
+  headerBackButtonDisplayMode: "minimal",
+  headerTitleStyle: {
+    fontSize: 18,
+    fontWeight: "600" as const,
+    color: "#3D2C4E",
+  },
+  headerTintColor: "#3D2C4E",
+  headerShadowVisible: false,
+};
 
 const styles = StyleSheet.create({
   safe: {
@@ -189,7 +206,7 @@ const styles = StyleSheet.create({
   },
   listHeader: {
     paddingHorizontal: 28,
-    paddingTop: 48,
+    paddingTop: 24,
     paddingBottom: 24,
     gap: 20,
   },

@@ -1,10 +1,14 @@
 import StreakBanner from "@/components/StreakBanner";
-import { getAllSessions } from "@/storage/sessions";
+import {
+  clearSessionInProgress,
+  getAllSessions,
+  getInterruptedSession,
+} from "@/storage/sessions";
 import { getStreakInfo } from "@/storage/streak";
 import { Session, StreakInfo } from "@/types/session";
 import { Link, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // – Helpers
@@ -43,10 +47,19 @@ export default function HomeScreen() {
     useCallback(() => {
       async function loadData() {
         try {
-          const [sessions, streak] = await Promise.all([
+          const [sessions, streak, interrupted] = await Promise.all([
             getAllSessions(),
             getStreakInfo(),
+            getInterruptedSession(),
           ]);
+          if (interrupted) {
+            await clearSessionInProgress();
+            Alert.alert(
+              "Session Interrupted",
+              "Your last session was interrupted. Don't worry, you can start a new one whenever you're ready!",
+            );
+          }
+
           setStreakInfo(streak);
           // index 0 is the most recent session due to sorting in getAllSessions
           setLastSession(sessions[0] ?? null);

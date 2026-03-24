@@ -1,3 +1,4 @@
+import * as Haptics from "expo-haptics";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface Props {
@@ -6,10 +7,15 @@ interface Props {
 }
 
 export default function DistractionButton({ count, onPress }: Props) {
+  function handlePress() {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+    onPress();
+  }
+
   return (
     <View style={styles.container}>
       <Pressable
-        onPress={onPress}
+        onPress={handlePress}
         style={styles.button}
         android_ripple={{ color: "#E0E0E0", radius: 24 }}
       >
