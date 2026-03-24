@@ -1,50 +1,57 @@
-# Welcome to your Expo app 👋
+# Selah App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A minimal focus timer for Bible Scripture reading sessions. The main purpose of this app is to reduce distraction caused by the phone by motivating the user to stay locked into the (physical) Bible. Hence the word "Selah" – to pause and reflect.
 
-## Get started
+(The secondary purpose is to explore React Native and Expo from first principles.)
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## What it does
 
-2. Start the app
+- Start a timed reading session with a chosen duration
+- Track distractions and app-leave events during a session
+- Record a reflection at the end
+- Maintain a daily streak across sessions
+- View full session history grouped by date
 
-   ```bash
-   npx expo start
-   ```
+## Tech stack
 
-In the output, you'll find options to open the app in a
+- [Expo](https://expo.dev) (SDK 52, managed workflow)
+- [Expo Router](https://expo.github.io/router) — file-based navigation
+- [AsyncStorage](https://react-native-async-storage.github.io/async-storage/) — local persistence
+- [expo-haptics](https://docs.expo.dev/versions/latest/sdk/haptics/) — tactile feedback
+- [expo-keep-awake](https://docs.expo.dev/versions/latest/sdk/keep-awake/) — screen stays on during sessions
+- TypeScript throughout
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Project structure
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+src/
+├── app/             # Screens (Expo Router file-based)
+│   ├── index.tsx    # Home
+│   ├── focus-setup.tsx
+│   ├── session.tsx
+│   ├── finish.tsx
+│   └── history.tsx
+├── components/      # Reusable UI components
+├── hooks/           # Custom hooks (useTimer, useAppState, useKeepAwake)
+├── storage/         # AsyncStorage abstraction (sessions, streak)
+├── types/           # TypeScript types
+└── constants/       # Theme, colors, spacing, fonts
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Running locally
 
-## Learn more
+```bash
+git clone https://github.com/your-username/selah.git
+cd selah
+npm install
+npx expo start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Requires the [Expo Go](https://expo.dev/go) app on your device,
+or an iOS/Android simulator.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Status
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Work in progress — MVP.
