@@ -1,4 +1,4 @@
-# Selah App
+# Selah App (MVP)
 
 A minimal focus timer for Bible Scripture reading sessions. The main purpose of this app is to reduce distraction caused by the phone by motivating the user to stay locked into the (physical) Bible. Hence the word "Selah" – to pause and reflect.
 
@@ -13,6 +13,11 @@ A minimal focus timer for Bible Scripture reading sessions. The main purpose of 
 - Record a reflection at the end
 - Maintain a daily streak across sessions
 - View full session history grouped by date
+
+
+## Demo (with Expo Go)
+Requires installing the [Expo Go](https://expo.dev/go) app on your device and scanning this QR code:
+![eas-update](https://github.com/user-attachments/assets/5be2e902-7095-4032-94e4-267e0f177a39)
 
 ## Tech stack
 
