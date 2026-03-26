@@ -42,7 +42,8 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,
@@ -54,6 +55,12 @@
         "projectId": "8348d822-de3d-44c1-b143-b01e4ed555ea"
       }
     },
-    "owner": "christopher.susandji"
+    "owner": "christopher.susandji",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/8348d822-de3d-44c1-b143-b01e4ed555ea"
+    }
   }
 }

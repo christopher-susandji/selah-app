@@ -1,3 +1,5 @@
+import { Colors } from "@/constants/colors";
+import { Radii, Spacing, Type } from "@/constants/theme";
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -11,12 +13,12 @@ const ITEMS: ChecklistItem[] = [
   {
     id: "dnd",
     label: "Enable Do Not Disturb",
-    hint: "Swipe down → Focus / Do Not Disturb",
+    hint: "Swipe down to Focus or Do Not Disturb.",
   },
   {
     id: "facedown",
     label: "Place Phone Face Down",
-    hint: "Or set it aside — your call.",
+    hint: "Or set it aside. Your call.",
   },
 ];
 
@@ -25,7 +27,6 @@ export default function FocusSetupChecklist() {
 
   function toggleItem(id: string) {
     setChecked((prev) => {
-      // don't mutate state directly
       const next = new Set(prev);
       if (next.has(id)) {
         next.delete(id);
@@ -40,6 +41,7 @@ export default function FocusSetupChecklist() {
     <View style={styles.container}>
       {ITEMS.map((item) => {
         const isChecked = checked.has(item.id);
+
         return (
           <Pressable
             key={item.id}
@@ -48,14 +50,12 @@ export default function FocusSetupChecklist() {
             accessibilityRole="checkbox"
             accessibilityState={{ checked: isChecked }}
           >
-            {/* Checkbox */}
             <View
               style={[styles.checkbox, isChecked && styles.checkboxChecked]}
             >
               {isChecked && <Text style={styles.checkmark}>✓</Text>}
             </View>
 
-            {/* Label + hint */}
             <View style={styles.textGroup}>
               <Text style={[styles.label, isChecked && styles.labelChecked]}>
                 {item.label}
@@ -71,49 +71,45 @@ export default function FocusSetupChecklist() {
 
 const styles = StyleSheet.create({
   container: {
-    gap: 12,
+    gap: Spacing[3],
     width: "100%",
   },
   row: {
-    flexDirection: "row", // ← horizontal layout: checkbox on left, text on right
+    flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F5F0E8",
-    borderRadius: 12,
-    padding: 16,
-    gap: 14,
+    backgroundColor: Colors.surfaceContainer,
+    borderRadius: Radii.lg,
+    padding: Spacing[4],
+    gap: Spacing[4],
   },
   checkbox: {
     width: 26,
     height: 26,
-    borderRadius: 6,
-    borderWidth: 2,
-    borderColor: "#9B8FA0",
+    borderRadius: Radii.sm,
+    backgroundColor: Colors.surfaceContainerHigh,
     alignItems: "center",
     justifyContent: "center",
   },
   checkboxChecked: {
-    backgroundColor: "#3D2C4E",
-    borderColor: "#3D2C4E",
+    backgroundColor: Colors.primary,
   },
   checkmark: {
-    color: "#FAF8F5",
+    color: Colors.onPrimary,
     fontSize: 14,
     fontWeight: "700",
   },
+  textGroup: {
+    flex: 1,
+  },
   label: {
-    fontSize: 15,
+    ...Type.bodyMd,
     fontWeight: "500",
-    color: "#3D2C4E",
   },
   labelChecked: {
-    color: "#9B8FA0", // dims when checked — visual confirmation
-  },
-  textGroup: {
-    flex: 1, // takes remaining width after the checkbox
+    color: Colors.textTertiary,
   },
   hint: {
-    fontSize: 12,
-    color: "#9B8FA0",
+    ...Type.bodySm,
     marginTop: 2,
   },
 });

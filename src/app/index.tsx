@@ -1,4 +1,6 @@
 import StreakBanner from "@/components/StreakBanner";
+import { Colors } from "@/constants/colors";
+import { Fonts, Radii, Spacing, Type } from "@/constants/theme";
 import {
   clearSessionInProgress,
   getAllSessions,
@@ -59,15 +61,12 @@ export default function HomeScreen() {
               "Your last session was interrupted. Don't worry, you can start a new one whenever you're ready!",
             );
           }
-
           setStreakInfo(streak);
-          // index 0 is the most recent session due to sorting in getAllSessions
           setLastSession(sessions[0] ?? null);
         } catch (error) {
           console.error("Error loading home screen data:", error);
         }
       }
-
       loadData();
     }, []),
   );
@@ -75,16 +74,15 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.container}>
-        {/* --- Top section: greeting --- */}
+        {/* Top: greeting — left-aligned with wide right margin */}
         <View style={styles.top}>
           <Text style={styles.greeting}>{getGreeting()}</Text>
           <Text style={styles.greetingSub}>Ready for your next session?</Text>
         </View>
 
-        {/* --- Middle section: streak banner --- */}
+        {/* Middle: streak + last session */}
         <View style={styles.middle}>
           <StreakBanner days={streakInfo?.currentStreakDays ?? 0} />
-
           {lastSession ? (
             <Text style={styles.lastSession}>
               Last session: {getLastSessionLabel(lastSession.startAt)}
@@ -96,19 +94,14 @@ export default function HomeScreen() {
           )}
         </View>
 
-        {/* --- Bottom section: actions --- */}
+        {/* Bottom: actions */}
         <View style={styles.bottom}>
           <Link href="/focus-setup" asChild>
-            <Pressable
-              style={styles.primaryButton}
-              android_ripple={{ color: "#FAF8F5" }}
-            >
+            <Pressable android_ripple={{ color: "#FAF8F5" }}>
               {({ pressed }) => (
-                <Text
-                  style={[styles.primaryButtonText, pressed && styles.pressed]}
-                >
-                  Begin Session
-                </Text>
+                <View style={[styles.primaryButton, pressed && styles.pressed]}>
+                  <Text style={styles.primaryButtonText}>Begin Session</Text>
+                </View>
               )}
             </Pressable>
           </Link>
@@ -117,7 +110,7 @@ export default function HomeScreen() {
             <Pressable style={styles.secondaryLink}>
               {({ pressed }) => (
                 <Text
-                  style={[styles.secondaryLinkText, pressed && styles.pressed]}
+                  style={[styles.secondaryLinkText, pressed && styles.dimmed]}
                 >
                   View History
                 </Text>
@@ -133,61 +126,63 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: "#FAF8F5",
+    backgroundColor: Colors.background,
   },
   container: {
     flex: 1,
-    paddingHorizontal: 28,
+    paddingHorizontal: Spacing.gutter,
     justifyContent: "space-between",
-    paddingBottom: 32,
+    paddingBottom: Spacing[8],
   },
   top: {
-    marginTop: 48,
+    marginTop: Spacing[10],
+    paddingRight: Spacing[10], // intentional asymmetry — wide right margin
   },
   greeting: {
-    fontSize: 28,
-    fontWeight: "700",
-    color: "#3D2C4E",
-    lineHeight: 36,
+    fontFamily: Fonts.newsreaderRegular,
+    fontSize: 30,
+    lineHeight: 40,
+    letterSpacing: -0.2,
+    color: Colors.textPrimary,
   },
   greetingSub: {
-    fontSize: 28,
-    fontWeight: "300",
-    color: "#3D2C4E",
-    lineHeight: 36,
+    fontFamily: Fonts.newsreaderLight,
+    fontSize: 30,
+    lineHeight: 40,
+    letterSpacing: -0.2,
+    color: Colors.textPrimary,
   },
   middle: {
-    alignItems: "center",
-    gap: 16,
+    gap: Spacing[4],
   },
   lastSession: {
-    fontSize: 14,
-    color: "#9B8FA0",
+    ...Type.labelMd,
   },
   bottom: {
-    gap: 12,
+    gap: Spacing[3],
   },
   primaryButton: {
-    backgroundColor: "#3D2C4E",
-    paddingVertical: 18,
-    borderRadius: 14,
+    backgroundColor: Colors.primary,
+    paddingVertical: Spacing[5],
+    borderRadius: Radii.xl,
     alignItems: "center",
   },
   primaryButtonText: {
-    color: "#FAF8F5",
-    fontSize: 17,
-    fontWeight: "600",
-    letterSpacing: 0.3,
-  },
-  pressed: {
-    opacity: 0.75,
+    ...Type.labelLg,
+    color: Colors.onPrimary,
   },
   secondaryLink: {
-    paddingVertical: 12,
     alignItems: "center",
+    paddingVertical: Spacing[4],
   },
   secondaryLinkText: {
-    color: "#9B8FA0",
-    fontSize: 15,
+    ...Type.labelMd,
+    color: Colors.onPrimaryFixedVariant,
+  },
+  pressed: {
+    opacity: 0.82,
+  },
+  dimmed: {
+    opacity: 0.55,
   },
 });

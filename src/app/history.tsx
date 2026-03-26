@@ -1,5 +1,7 @@
 import SessionCard from "@/components/SessionCard";
 import StreakBanner from "@/components/StreakBanner";
+import { Colors } from "@/constants/colors";
+import { Fonts, Spacing, Type } from "@/constants/theme";
 import { getAllSessions } from "@/storage/sessions";
 import { getStreakInfo } from "@/storage/streak";
 import { Session, StreakInfo } from "@/types/session";
@@ -108,7 +110,7 @@ export default function HistoryScreen() {
       <SafeAreaProvider style={styles.safe}>
         <Stack.Screen options={screenOptions} />
         <View style={styles.centered}>
-          <ActivityIndicator size="large" color="#3D2C4E" />
+          <ActivityIndicator size="large" color={Colors.primary} />
         </View>
       </SafeAreaProvider>
     );
@@ -172,73 +174,72 @@ const screenOptions: ExtendedStackNavigationOptions = {
   headerShown: true,
   title: "History",
   headerBackButtonDisplayMode: "minimal",
+  headerTintColor: Colors.primary,
   headerTitleStyle: {
-    fontSize: 18,
-    fontWeight: "600" as const,
-    color: "#3D2C4E",
+    fontFamily: Fonts.newsreaderLight,
+    fontSize: 20,
+    fontWeight: "normal",
+    color: Colors.textPrimary,
   },
-  headerTintColor: "#3D2C4E",
   headerShadowVisible: false,
+  headerStyle: { backgroundColor: Colors.background },
 };
 
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: "#FAF8F5",
+    backgroundColor: Colors.background,
   },
   centered: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 8,
+    gap: Spacing[2],
   },
   emptyHeading: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#3D2C4E",
+    ...Type.headlineSm,
+    fontFamily: Fonts.newsreaderRegular,
   },
   emptySubtext: {
-    fontSize: 15,
-    color: "#9B8FA0",
+    ...Type.bodyMd,
+    color: Colors.textSecondary,
   },
   listContent: {
-    paddingBottom: 48,
+    paddingBottom: Spacing[10],
   },
   listHeader: {
-    paddingHorizontal: 28,
-    paddingTop: 24,
-    paddingBottom: 24,
-    gap: 20,
+    paddingHorizontal: Spacing.gutter,
+    paddingTop: Spacing[6],
+    paddingBottom: Spacing[6],
+    gap: Spacing[5],
   },
   weeklySummary: {
-    gap: 4,
+    gap: Spacing[1],
   },
   weeklyTitle: {
-    fontSize: 12,
-    letterSpacing: 1.2,
+    ...Type.labelSm,
     textTransform: "uppercase",
-    color: "#9B8FA0",
   },
   weeklyStats: {
-    fontSize: 22,
-    fontWeight: "600",
-    color: "#3D2C4E",
+    fontFamily: Fonts.dmSerifDisplay,
+    fontSize: 26,
+    lineHeight: 34,
+    color: Colors.textPrimary,
   },
   sectionHeader: {
-    backgroundColor: "#FAF8F5",
-    paddingHorizontal: 28,
-    paddingTop: 20,
-    paddingBottom: 8,
+    backgroundColor: Colors.background,
+    paddingHorizontal: Spacing.gutter,
+    paddingTop: Spacing[5],
+    paddingBottom: Spacing[2],
   },
   sectionHeaderText: {
-    fontSize: 13,
-    fontWeight: "600",
-    color: "#9B8FA0",
-    letterSpacing: 0.5,
+    ...Type.labelSm,
     textTransform: "uppercase",
+    letterSpacing: 0.5,
   },
   cardWrapper: {
-    paddingHorizontal: 28,
-    marginBottom: 8,
+    paddingHorizontal: Spacing.gutter,
+    // Living Library: 3.5rem (Spacing 10 ≈ 56px) vertical whitespace between items
+    marginBottom: Spacing[4],
   },
 });

@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/colors";
 import { useEffect, useRef } from "react";
 import { Animated, StyleSheet } from "react-native";
 
@@ -46,10 +47,11 @@ export default function Timer({ elapsedSec, isRunning }: Props) {
 
 const styles = StyleSheet.create({
   display: {
-    fontSize: 80,
+    fontSize: 84,
     fontWeight: "200",
-    color: "#3D2C4E",
-    letterSpacing: 4,
+    lineHeight: 100,
+    color: Colors.textPrimary,
+    letterSpacing: 2,
     fontVariant: ["tabular-nums"],
   },
 });

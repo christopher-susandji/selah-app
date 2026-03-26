@@ -1,3 +1,5 @@
+import { Colors } from "@/constants/colors";
+import { Fonts, Radii, Spacing, Type } from "@/constants/theme";
 import { StyleSheet, Text, View } from "react-native";
 
 interface Props {
@@ -26,22 +28,21 @@ export default function StreakBanner({ days = 0, wasReset = false }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    backgroundColor: "#F0F0F0",
-    borderRadius: 8,
+    paddingVertical: Spacing[4],
+    paddingHorizontal: Spacing[5],
+    backgroundColor: Colors.surfaceContainer,
+    borderRadius: Radii.lg,
   },
   label: {
-    fontSize: 14,
-    color: "#888",
-    letterSpacing: 1.2,
+    ...Type.labelSm,
     textTransform: "uppercase",
-    marginBottom: 4,
+    marginBottom: Spacing[1],
   },
   count: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#333",
+    fontFamily: Fonts.dmSerifDisplay,
+    fontSize: 26,
+    lineHeight: 34,
+    letterSpacing: -0.2,
+    color: Colors.textPrimary,
   },
 });

@@ -1,3 +1,5 @@
+import { Colors } from "@/constants/colors";
+import { Fonts, Radii, Spacing, Type } from "@/constants/theme";
 import { Session } from "@/types/session";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -56,10 +58,11 @@ export default function SessionCard({ session }: Props) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#F5F0E8",
-    borderRadius: 12,
-    padding: 16,
-    gap: 6,
+    backgroundColor: Colors.surfaceContainer,
+    borderRadius: Radii.lg,
+    paddingVertical: Spacing[4],
+    paddingHorizontal: Spacing[5],
+    gap: Spacing[2],
   },
   topRow: {
     flexDirection: "row",
@@ -67,32 +70,31 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   time: {
-    fontSize: 14,
-    color: "#9B8FA0",
+    ...Type.labelMd,
   },
   duration: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#3D2C4E",
+    fontFamily: Fonts.dmSerifDisplay,
+    fontSize: 20,
+    lineHeight: 26,
+    color: Colors.textPrimary,
   },
   statsRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
+    gap: Spacing[2],
   },
   stat: {
-    fontSize: 13,
-    color: "#9B8FA0",
+    ...Type.bodySm,
   },
   dot: {
-    fontSize: 13,
-    color: "#9B8FA0",
+    ...Type.bodySm,
   },
   reflection: {
-    fontSize: 13,
-    color: "#3D2C4E",
+    ...Type.bodySm,
+    fontFamily: Fonts.newsreaderItalic,
     fontStyle: "italic",
-    marginTop: 4,
-    lineHeight: 18,
+    color: Colors.textPrimary,
+    marginTop: Spacing[1],
+    lineHeight: 20,
   },
 });

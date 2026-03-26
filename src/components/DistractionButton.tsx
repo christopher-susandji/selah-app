@@ -1,3 +1,5 @@
+import { Colors } from "@/constants/colors";
+import { Radii, Spacing, Type } from "@/constants/theme";
 import * as Haptics from "expo-haptics";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -38,25 +40,22 @@ export default function DistractionButton({ count, onPress }: Props) {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    gap: 8,
+    gap: Spacing[2],
   },
   button: {
-    borderWidth: 1.5,
-    borderColor: "#9B8FA0",
-    borderRadius: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 28,
+    backgroundColor: Colors.surfaceContainerHigh,
+    borderRadius: Radii.md,
+    paddingVertical: Spacing[3],
+    paddingHorizontal: Spacing[7],
   },
   buttonText: {
-    fontSize: 15,
-    color: "#9B8FA0",
-    fontWeight: "500",
+    ...Type.labelMd,
+    color: Colors.secondary,
   },
   pressed: {
     opacity: 0.5,
   },
   count: {
-    fontSize: 13,
-    color: "#9B8FA0",
+    ...Type.bodySm,
   },
 });

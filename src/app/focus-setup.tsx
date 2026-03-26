@@ -1,4 +1,6 @@
 import FocusSetupChecklist from "@/components/FocusSetupChecklist";
+import { Colors } from "@/constants/colors";
+import { Fonts, Radii, Spacing, Type } from "@/constants/theme";
 import { router } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,7 +9,7 @@ export default function FocusSetupScreen() {
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.container}>
-        {/* Top section: heading */}
+        {/* Top section: breadcrumb nav + heading */}
         <View style={styles.top}>
           <Text style={styles.heading}>Focus Setup</Text>
           <Text style={styles.subheading}>
@@ -24,14 +26,13 @@ export default function FocusSetupScreen() {
         <View style={styles.bottom}>
           <Text style={styles.readyText}>Ready when you are.</Text>
           <Pressable
-            style={styles.startButton}
             onPress={() => router.push("/session")}
             android_ripple={{ color: "#FAF8F5" }}
           >
             {({ pressed }) => (
-              <Text style={[styles.startButtonText, pressed && styles.pressed]}>
-                Start Session
-              </Text>
+              <View style={[styles.startButton, pressed && styles.pressed]}>
+                <Text style={styles.startButtonText}>Start Session</Text>
+              </View>
             )}
           </Pressable>
         </View>
@@ -43,54 +44,53 @@ export default function FocusSetupScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: "#FAF8F5",
+    backgroundColor: Colors.background,
   },
   container: {
     flex: 1,
-    paddingHorizontal: 28,
+    paddingHorizontal: Spacing.gutter,
     justifyContent: "space-between",
-    paddingBottom: 32,
+    paddingBottom: Spacing[8],
   },
   top: {
-    marginTop: 48,
+    marginTop: Spacing[10],
+    paddingRight: Spacing[10], // intentional asymmetry
   },
   heading: {
-    fontSize: 28,
-    fontWeight: "700",
-    color: "#3D2C4E",
-    marginBottom: 8,
+    fontFamily: Fonts.newsreaderRegular,
+    fontSize: 32,
+    lineHeight: 42,
+    letterSpacing: -0.3,
+    color: Colors.textPrimary,
+    marginBottom: Spacing[2],
   },
   subheading: {
-    fontSize: 16,
-    fontWeight: "300",
-    color: "#9B8FA0",
-    lineHeight: 24,
+    ...Type.bodyMd,
+    color: Colors.textSecondary,
   },
   middle: {
-    gap: 8,
+    gap: Spacing[2],
   },
   bottom: {
-    gap: 12,
+    gap: Spacing[3],
   },
   readyText: {
     textAlign: "center",
-    fontSize: 14,
-    color: "#9B8FA0",
+    ...Type.labelMd,
+    fontFamily: Fonts.newsreaderItalic,
     fontStyle: "italic",
   },
   startButton: {
-    backgroundColor: "#3D2C4E",
-    paddingVertical: 18,
-    borderRadius: 14,
+    backgroundColor: Colors.primary,
+    paddingVertical: Spacing[5],
+    borderRadius: Radii.xl,
     alignItems: "center",
   },
   startButtonText: {
-    color: "#FAF8F5",
-    fontSize: 17,
-    fontWeight: "600",
-    letterSpacing: 0.3,
+    ...Type.labelLg,
+    color: Colors.onPrimary,
   },
   pressed: {
-    opacity: 0.75,
+    opacity: 0.82,
   },
 });

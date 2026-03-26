@@ -1,16 +1,32 @@
+// Living Library Design System — Ink & Paper palette
 export const Colors = {
-  // Brand
-  plum: "#3D2C4E", // primary text, buttons, headings
-  cream: "#FAF8F5", // backgrounds
-  sand: "#F5F0E8", // cards, inputs
-  lavender: "#E8E1EF", // dividers, borders
-  muted: "#9B8FA0", // secondary text, placeholders
-  mutedLight: "#C5BBCC", // placeholder text in inputs
+  // ── Surface hierarchy (light → dark) ──────────────────────
+  surfaceContainerLowest: "#ffffff",
+  background: "#fbf9f6",
+  surface: "#fbf9f6",
+  surfaceContainerLow: "#f5f3f0",
+  surfaceContainer: "#efeeeb",
+  surfaceContainerHigh: "#eae8e5",
+  surfaceContainerHighest: "#e4e2df",
 
-  // Semantic
-  background: "#FAF8F5",
-  surface: "#F5F0E8",
-  text: "#3D2C4E",
-  textSecondary: "#9B8FA0",
-  border: "#E8E1EF",
+  // ── Brand / Primary ───────────────────────────────────────
+  primary: "#271737", // darkest value — deep plum
+  primaryContainer: "#3d2c4e", // top of CTA gradient / lighter plum
+  onPrimary: "#ffffff",
+  onPrimaryFixedVariant: "#513f63", // secondary button text
+
+  // ── Secondary ─────────────────────────────────────────────
+  secondary: "#655b6a",
+
+  // ── Outline / Ghost Border ────────────────────────────────
+  outlineVariant: "#ccc4cd",
+
+  // ── Tertiary ──────────────────────────────────────────────
+  tertiaryFixed: "#e7e0ee", // reading progress bar background
+
+  // ── Text semantic aliases ─────────────────────────────────
+  textPrimary: "#271737",
+  textSecondary: "#655b6a",
+  textTertiary: "#9b8fa0",
+  textPlaceholder: "#b4aab9",
 } as const;
