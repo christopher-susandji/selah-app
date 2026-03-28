@@ -1,5 +1,7 @@
 import { Colors } from "@/constants/colors";
+import { getReminderSettings } from "@/storage/notifications";
 import { hasCompletedOnboarding } from "@/storage/onboarding";
+import { scheduleReminder } from "@/storage/reminder";
 import { DMSerifDisplay_400Regular } from "@expo-google-fonts/dm-serif-display";
 import {
   Newsreader_300Light,
@@ -38,6 +40,16 @@ export default function RootLayout() {
       setOnboardingChecked(true);
     }
     checkOnboarding();
+  }, []);
+
+  useEffect(() => {
+    async function rescheduleIfEnabled() {
+      const settings = await getReminderSettings();
+      if (settings.enabled) {
+        await scheduleReminder(settings);
+      }
+    }
+    rescheduleIfEnabled();
   }, []);
 
   useEffect(() => {
