@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/colors";
+import { hasCompletedOnboarding } from "@/storage/onboarding";
 import { DMSerifDisplay_400Regular } from "@expo-google-fonts/dm-serif-display";
 import {
   Newsreader_300Light,
@@ -13,7 +14,7 @@ import {
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,16 +28,25 @@ export default function RootLayout() {
     PlusJakartaSans_600SemiBold,
     DMSerifDisplay_400Regular,
   });
+  const [onboardingChecked, setOnboardingChecked] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
-    if (fontsLoaded) {
+    async function checkOnboarding() {
+      const completed = await hasCompletedOnboarding();
+      setShowOnboarding(!completed);
+      setOnboardingChecked(true);
+    }
+    checkOnboarding();
+  }, []);
+
+  useEffect(() => {
+    if (fontsLoaded && onboardingChecked) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded]);
+  }, [fontsLoaded, onboardingChecked]);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  if (!fontsLoaded || !onboardingChecked) return null;
 
   return (
     <Stack
@@ -45,14 +55,23 @@ export default function RootLayout() {
         contentStyle: { backgroundColor: Colors.background },
       }}
     >
-      <Stack.Screen
-        name="index"
-        options={{ gestureEnabled: false, headerShown: false }}
-      />
-      <Stack.Screen name="focus-setup" />
-      <Stack.Screen name="session" options={{ gestureEnabled: false }} />
-      <Stack.Screen name="finish" />
-      <Stack.Screen name="history" />
+      {showOnboarding ? (
+        <Stack.Screen
+          name="onboarding"
+          options={{ gestureEnabled: false, headerShown: false }}
+        />
+      ) : (
+        <>
+          <Stack.Screen
+            name="index"
+            options={{ gestureEnabled: false, headerShown: false }}
+          />
+          <Stack.Screen name="focus-setup" />
+          <Stack.Screen name="session" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="finish" />
+          <Stack.Screen name="history" />
+        </>
+      )}
     </Stack>
   );
 }
