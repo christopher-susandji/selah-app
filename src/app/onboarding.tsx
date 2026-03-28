@@ -24,7 +24,7 @@ export default function OnboardingScreen() {
   async function handleNext() {
     if (isLast) {
       await markOnboardingComplete();
-      router.replace("/focus-setup");
+      router.replace("/");
     } else {
       setStep((s) => s + 1);
     }

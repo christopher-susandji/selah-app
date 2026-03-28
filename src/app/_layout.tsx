@@ -12,7 +12,7 @@ import {
   PlusJakartaSans_600SemiBold,
 } from "@expo-google-fonts/plus-jakarta-sans";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 
@@ -41,8 +41,11 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    if (fontsLoaded && onboardingChecked) {
-      SplashScreen.hideAsync();
+    if (!fontsLoaded || !onboardingChecked) return;
+
+    SplashScreen.hideAsync();
+    if (showOnboarding) {
+      router.replace("/onboarding");
     }
   }, [fontsLoaded, onboardingChecked]);
 
@@ -55,23 +58,18 @@ export default function RootLayout() {
         contentStyle: { backgroundColor: Colors.background },
       }}
     >
-      {showOnboarding ? (
-        <Stack.Screen
-          name="onboarding"
-          options={{ gestureEnabled: false, headerShown: false }}
-        />
-      ) : (
-        <>
-          <Stack.Screen
-            name="index"
-            options={{ gestureEnabled: false, headerShown: false }}
-          />
-          <Stack.Screen name="focus-setup" />
-          <Stack.Screen name="session" options={{ gestureEnabled: false }} />
-          <Stack.Screen name="finish" />
-          <Stack.Screen name="history" />
-        </>
-      )}
+      <Stack.Screen
+        name="index"
+        options={{ gestureEnabled: false, headerShown: false }}
+      />
+      <Stack.Screen
+        name="onboarding"
+        options={{ gestureEnabled: false, headerShown: false }}
+      />
+      <Stack.Screen name="focus-setup" />
+      <Stack.Screen name="session" options={{ gestureEnabled: false }} />
+      <Stack.Screen name="finish" />
+      <Stack.Screen name="history" />
     </Stack>
   );
 }
