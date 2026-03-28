@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/colors";
+import { hasCompletedOnboarding } from "@/storage/onboarding";
 import { DMSerifDisplay_400Regular } from "@expo-google-fonts/dm-serif-display";
 import {
   Newsreader_300Light,
@@ -11,9 +12,9 @@ import {
   PlusJakartaSans_600SemiBold,
 } from "@expo-google-fonts/plus-jakarta-sans";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,16 +28,28 @@ export default function RootLayout() {
     PlusJakartaSans_600SemiBold,
     DMSerifDisplay_400Regular,
   });
+  const [onboardingChecked, setOnboardingChecked] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
+    async function checkOnboarding() {
+      const completed = await hasCompletedOnboarding();
+      setShowOnboarding(!completed);
+      setOnboardingChecked(true);
     }
-  }, [fontsLoaded]);
+    checkOnboarding();
+  }, []);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  useEffect(() => {
+    if (!fontsLoaded || !onboardingChecked) return;
+
+    SplashScreen.hideAsync();
+    if (showOnboarding) {
+      router.replace("/onboarding");
+    }
+  }, [fontsLoaded, onboardingChecked]);
+
+  if (!fontsLoaded || !onboardingChecked) return null;
 
   return (
     <Stack
@@ -47,6 +60,10 @@ export default function RootLayout() {
     >
       <Stack.Screen
         name="index"
+        options={{ gestureEnabled: false, headerShown: false }}
+      />
+      <Stack.Screen
+        name="onboarding"
         options={{ gestureEnabled: false, headerShown: false }}
       />
       <Stack.Screen name="focus-setup" />
