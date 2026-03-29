@@ -72,10 +72,7 @@ export default function RootLayout() {
       }}
     >
       <ErrorBoundary>
-        <Stack.Screen
-          name="index"
-          options={{ gestureEnabled: false, headerShown: false }}
-        />
+        <Stack.Screen name="index" options={{ gestureEnabled: false }} />
         <Stack.Screen
           name="onboarding"
           options={{ gestureEnabled: false, headerShown: false }}
@@ -84,6 +81,7 @@ export default function RootLayout() {
         <Stack.Screen name="session" options={{ gestureEnabled: false }} />
         <Stack.Screen name="finish" />
         <Stack.Screen name="history" />
+        <Stack.Screen name="settings" />
       </ErrorBoundary>
     </Stack>
   );
