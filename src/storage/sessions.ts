@@ -5,17 +5,25 @@ const SESSIONS_KEY = "selah:sessions";
 const IN_PROGRESS_KEY = "selah:inProgress";
 
 export async function saveSession(session: Session): Promise<void> {
-  const existing = await getAllSessions();
-  const updated = [session, ...existing];
-  await AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify(updated));
+  try {
+    const existing = await getAllSessions();
+    const updated = [session, ...existing];
+    await AsyncStorage.setItem(SESSIONS_KEY, JSON.stringify(updated));
+  } catch (error) {
+    throw new Error(`Failed to save session: ${error}`);
+  }
 }
 
 export async function getAllSessions(): Promise<Session[]> {
-  const raw = await AsyncStorage.getItem(SESSIONS_KEY);
-  if (raw === null) {
+  try {
+    const raw = await AsyncStorage.getItem(SESSIONS_KEY);
+    if (raw === null) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed as Session[];
+  } catch (error) {
     return [];
   }
-  return JSON.parse(raw) as Session[];
 }
 
 export async function getSessionsByDate(date: string): Promise<Session[]> {

@@ -11,11 +11,21 @@ const DEFAULT_STREAK: StreakInfo = {
 };
 
 export async function getStreakInfo(): Promise<StreakInfo> {
-  const raw = await AsyncStorage.getItem(STREAK_KEY);
-  if (raw === null) {
+  try {
+    const raw = await AsyncStorage.getItem(STREAK_KEY);
+    if (raw === null) return DEFAULT_STREAK;
+    const parsed = JSON.parse(raw);
+    if (
+      typeof parsed?.currentStreakDays !== "number" ||
+      typeof parsed?.lastSessionDate !== "string" ||
+      typeof parsed?.longestStreakDays !== "number"
+    ) {
+      return DEFAULT_STREAK;
+    }
+    return parsed as StreakInfo;
+  } catch {
     return DEFAULT_STREAK;
   }
-  return JSON.parse(raw) as StreakInfo;
 }
 
 export async function updateStreak(todayDate: string): Promise<StreakInfo> {
