@@ -1,3 +1,4 @@
+import ErrorBoundary from "@/components/ErrorBoundary";
 import { Colors } from "@/constants/colors";
 import { getReminderSettings } from "@/storage/notifications";
 import { hasCompletedOnboarding } from "@/storage/onboarding";
@@ -70,18 +71,20 @@ export default function RootLayout() {
         contentStyle: { backgroundColor: Colors.background },
       }}
     >
-      <Stack.Screen
-        name="index"
-        options={{ gestureEnabled: false, headerShown: false }}
-      />
-      <Stack.Screen
-        name="onboarding"
-        options={{ gestureEnabled: false, headerShown: false }}
-      />
-      <Stack.Screen name="focus-setup" />
-      <Stack.Screen name="session" options={{ gestureEnabled: false }} />
-      <Stack.Screen name="finish" />
-      <Stack.Screen name="history" />
+      <ErrorBoundary>
+        <Stack.Screen
+          name="index"
+          options={{ gestureEnabled: false, headerShown: false }}
+        />
+        <Stack.Screen
+          name="onboarding"
+          options={{ gestureEnabled: false, headerShown: false }}
+        />
+        <Stack.Screen name="focus-setup" />
+        <Stack.Screen name="session" options={{ gestureEnabled: false }} />
+        <Stack.Screen name="finish" />
+        <Stack.Screen name="history" />
+      </ErrorBoundary>
     </Stack>
   );
 }
