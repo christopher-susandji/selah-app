@@ -29,4 +29,7 @@ export const Colors = {
   textSecondary: "#655b6a",
   textTertiary: "#9b8fa0",
   textPlaceholder: "#b4aab9",
+
+  // ── Error ───────────────────────────────────────────────
+  error: "#B00020",
 } as const;

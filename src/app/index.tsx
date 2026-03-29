@@ -8,6 +8,7 @@ import {
 } from "@/storage/sessions";
 import { getStreakInfo } from "@/storage/streak";
 import { Session, StreakInfo } from "@/types/session";
+import { Ionicons } from "@expo/vector-icons";
 import { Link, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
@@ -74,6 +75,22 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.container}>
+        {/* App bar: title + settings */}
+        <View style={styles.topBar}>
+          <Text style={styles.topBarTitle}>Selah</Text>
+          <Link href="/settings" asChild>
+            <Pressable hitSlop={12}>
+              {({ pressed }) => (
+                <Ionicons
+                  name="settings-sharp"
+                  size={22}
+                  color={pressed ? Colors.textTertiary : Colors.textSecondary}
+                />
+              )}
+            </Pressable>
+          </Link>
+        </View>
+
         {/* Top: greeting — left-aligned with wide right margin */}
         <View style={styles.top}>
           <Text style={styles.greeting}>{getGreeting()}</Text>
@@ -135,8 +152,23 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing[8],
   },
   top: {
-    marginTop: Spacing[10],
     paddingRight: Spacing[10], // intentional asymmetry — wide right margin
+  },
+  topBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingTop: Spacing[5],
+    paddingBottom: Spacing[4],
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.outlineVariant,
+  },
+  topBarTitle: {
+    fontFamily: Fonts.newsreaderItalic, // italic serif
+    fontSize: 22,
+    lineHeight: 28,
+    letterSpacing: -0.2,
+    color: Colors.textPrimary,
   },
   greeting: {
     fontFamily: Fonts.newsreaderRegular,

@@ -15,7 +15,12 @@ export async function getAllSessions(): Promise<Session[]> {
   if (raw === null) {
     return [];
   }
-  return JSON.parse(raw) as Session[];
+  try {
+    return JSON.parse(raw) as Session[];
+  } catch {
+    await AsyncStorage.removeItem(SESSIONS_KEY);
+    return [];
+  }
 }
 
 export async function getSessionsByDate(date: string): Promise<Session[]> {
