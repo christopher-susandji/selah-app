@@ -176,7 +176,7 @@ const screenOptions: ExtendedStackNavigationOptions = {
   headerBackButtonDisplayMode: "minimal",
   headerTintColor: Colors.primary,
   headerTitleStyle: {
-    fontFamily: Fonts.newsreaderLight,
+    fontFamily: Fonts.newsreaderRegular,
     fontSize: 20,
     fontWeight: "normal",
     color: Colors.textPrimary,
