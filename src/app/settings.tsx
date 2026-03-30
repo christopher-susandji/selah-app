@@ -1,29 +1,33 @@
 import { Colors } from "@/constants/colors";
 import { Fonts, Radii, Spacing, Type } from "@/constants/theme";
+import { useAuth } from "@/hooks/useAuth";
 import { useReminder } from "@/hooks/useReminder";
+import { signOut } from "@/storage/auth";
 import { clearAllData } from "@/storage/clearData";
 import DateTimePicker, {
-    DateTimePickerEvent,
+  DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import Constants from "expo-constants";
 import { router } from "expo-router";
 import Stack, {
-    ExtendedStackNavigationOptions,
+  ExtendedStackNavigationOptions,
 } from "expo-router/build/layouts/StackClient";
 import { useMemo } from "react";
 import {
-    Alert,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Switch,
-    Text,
-    View,
+  ActivityIndicator,
+  Alert,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  Text,
+  View,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function SettingsScreen() {
   const { settings, isLoading, updateSettings } = useReminder();
+  const { user, isLoading: authLoading } = useAuth();
 
   // – Handlers
   const pickerDate = useMemo(() => {
@@ -43,16 +47,6 @@ export default function SettingsScreen() {
 
   function handleReminderToggle(value: boolean) {
     updateSettings({ ...settings, enabled: value });
-  }
-
-  function handleHourChange(direction: "up" | "down") {
-    const next = (settings.hour + (direction === "up" ? 1 : -1) + 24) % 24;
-    updateSettings({ ...settings, hour: next });
-  }
-
-  function handleMinuteChange(direction: "up" | "down") {
-    const next = (settings.minute + (direction === "up" ? 5 : -5) + 60) % 60;
-    updateSettings({ ...settings, minute: next });
   }
 
   function handleClearData() {
@@ -84,6 +78,48 @@ export default function SettingsScreen() {
     <SafeAreaProvider style={styles.safe}>
       <Stack.Screen options={screenOptions} />
       <ScrollView contentContainerStyle={styles.content}>
+        {/* Section: Account */}
+        <Text style={styles.sectionLabel}>Account</Text>
+        <View style={styles.card}>
+          {authLoading ? (
+            <View style={styles.row}>
+              <ActivityIndicator color={Colors.primary} />
+            </View>
+          ) : user ? (
+            <>
+              <View style={styles.rowDouble}>
+                <Text style={styles.rowLabel}>Signed in as</Text>
+                <Text style={styles.rowValue} numberOfLines={1}>
+                  {user.email}
+                </Text>
+              </View>
+              <View style={styles.divider} />
+              <Pressable
+                onPress={async () => {
+                  try {
+                    await signOut();
+                  } catch {
+                    /* already signed out */
+                  }
+                }}
+              >
+                {({ pressed }) => (
+                  <View style={[styles.row, pressed && styles.pressed]}>
+                    <Text style={styles.destructiveLabel}>Sign Out</Text>
+                  </View>
+                )}
+              </Pressable>
+            </>
+          ) : (
+            <Pressable onPress={() => router.push("/sign-in")}>
+              {({ pressed }) => (
+                <View style={[styles.row, pressed && styles.pressed]}>
+                  <Text style={styles.rowLabel}>Sign in to sync sessions</Text>
+                </View>
+              )}
+            </Pressable>
+          )}
+        </View>
         {/* Section: Notifications */}
         <Text style={styles.sectionLabel}>Notifications</Text>
         <View style={styles.card}>
@@ -175,17 +211,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.gutter,
     paddingBottom: Spacing[10],
   },
-  header: {
-    marginTop: Spacing[10],
-    marginBottom: Spacing[8],
-  },
-  heading: {
-    fontFamily: Fonts.newsreaderRegular,
-    fontSize: 32,
-    lineHeight: 42,
-    letterSpacing: -0.3,
-    color: Colors.textPrimary,
-  },
   sectionLabel: {
     ...Type.labelSm,
     textTransform: "uppercase",
@@ -205,6 +230,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing[5],
     paddingVertical: Spacing[4],
     minHeight: 56,
+  },
+  rowDouble: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    paddingHorizontal: Spacing[5],
+    paddingVertical: Spacing[4],
   },
   rowText: { flex: 1, paddingRight: Spacing[4] },
   rowLabel: { ...Type.bodyMd, color: Colors.textPrimary },

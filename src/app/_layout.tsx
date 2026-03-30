@@ -82,6 +82,7 @@ export default function RootLayout() {
         <Stack.Screen name="finish" />
         <Stack.Screen name="history" />
         <Stack.Screen name="settings" />
+        <Stack.Screen name="sign-in" />
       </ErrorBoundary>
     </Stack>
   );
