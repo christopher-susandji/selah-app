@@ -3,22 +3,22 @@ import { Fonts, Radii, Spacing, Type } from "@/constants/theme";
 import { useReminder } from "@/hooks/useReminder";
 import { clearAllData } from "@/storage/clearData";
 import DateTimePicker, {
-    DateTimePickerEvent,
+  DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import Constants from "expo-constants";
 import { router } from "expo-router";
 import Stack, {
-    ExtendedStackNavigationOptions,
+  ExtendedStackNavigationOptions,
 } from "expo-router/build/layouts/StackClient";
 import { useMemo } from "react";
 import {
-    Alert,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Switch,
-    Text,
-    View,
+  Alert,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  Text,
+  View,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -43,16 +43,6 @@ export default function SettingsScreen() {
 
   function handleReminderToggle(value: boolean) {
     updateSettings({ ...settings, enabled: value });
-  }
-
-  function handleHourChange(direction: "up" | "down") {
-    const next = (settings.hour + (direction === "up" ? 1 : -1) + 24) % 24;
-    updateSettings({ ...settings, hour: next });
-  }
-
-  function handleMinuteChange(direction: "up" | "down") {
-    const next = (settings.minute + (direction === "up" ? 5 : -5) + 60) % 60;
-    updateSettings({ ...settings, minute: next });
   }
 
   function handleClearData() {
@@ -174,17 +164,6 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: Spacing.gutter,
     paddingBottom: Spacing[10],
-  },
-  header: {
-    marginTop: Spacing[10],
-    marginBottom: Spacing[8],
-  },
-  heading: {
-    fontFamily: Fonts.newsreaderRegular,
-    fontSize: 32,
-    lineHeight: 42,
-    letterSpacing: -0.3,
-    color: Colors.textPrimary,
   },
   sectionLabel: {
     ...Type.labelSm,
