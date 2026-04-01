@@ -2,6 +2,7 @@ import { Colors } from "@/constants/colors";
 import { Fonts, Radii, Spacing, Type } from "@/constants/theme";
 import { clearSessionInProgress, saveSession } from "@/storage/sessions";
 import { updateStreak } from "@/storage/streak";
+import { generateId } from "@/utlis/id";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
@@ -23,10 +24,6 @@ function formatDuration(totalSeconds: number): string {
   if (minutes === 0) return `${seconds}s`;
   if (seconds === 0) return `${minutes}m`;
   return `${minutes}m ${seconds}s`;
-}
-
-function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
 function getTodayLocalDate(): string {
