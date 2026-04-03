@@ -65,13 +65,13 @@ export default function RootLayout() {
   if (!fontsLoaded || !onboardingChecked) return null;
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        contentStyle: { backgroundColor: Colors.background },
-      }}
-    >
-      <ErrorBoundary>
+    <ErrorBoundary>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: Colors.background },
+        }}
+      >
         <Stack.Screen name="index" options={{ gestureEnabled: false }} />
         <Stack.Screen
           name="onboarding"
@@ -83,7 +83,7 @@ export default function RootLayout() {
         <Stack.Screen name="history" />
         <Stack.Screen name="settings" />
         <Stack.Screen name="sign-in" />
-      </ErrorBoundary>
-    </Stack>
+      </Stack>
+    </ErrorBoundary>
   );
 }
