@@ -1,6 +1,7 @@
 import { Colors } from "@/constants/colors";
 import { Fonts, Radii, Spacing, Type } from "@/constants/theme";
 import { signInWithEmail, signUpWithEmail } from "@/storage/auth";
+import { syncExistingSessions } from "@/storage/sessions";
 import { Stack, router } from "expo-router";
 import { ExtendedStackNavigationOptions } from "expo-router/build/layouts/StackClient";
 import { useState } from "react";
@@ -34,6 +35,13 @@ export default function SignInScreen() {
     try {
       if (mode === "signIn") {
         await signInWithEmail(email.trim(), password);
+        syncExistingSessions().catch((err) => {
+          // fire and forget, avoid blocking user flow if sync fails
+          console.warn(
+            "[sync] syncExistingSessions failed after sign in:",
+            err,
+          );
+        });
       } else {
         await signUpWithEmail(email.trim(), password);
         Alert.alert(
