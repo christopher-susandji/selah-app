@@ -50,7 +50,7 @@ export default function SessionCard({ session }: Props) {
 
       {/* Reflection (if any) */}
       {session.reflection && (
-        <Text style={styles.reflection}>"{session.reflection}"</Text>
+        <Text style={styles.reflection}>{session.reflection}</Text>
       )}
     </View>
   );
