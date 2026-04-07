@@ -1,7 +1,10 @@
-import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { useReminder } from "@/hooks/useReminder";
-import { getReminderSettings, saveReminderSettings } from "@/storage/notifications";
+import {
+    getReminderSettings,
+    saveReminderSettings,
+} from "@/storage/notifications";
 import { scheduleReminder } from "@/storage/reminder";
+import { act, renderHook, waitFor } from "@testing-library/react-native";
 
 jest.mock("@/storage/notifications", () => ({
   getReminderSettings: jest.fn(),
@@ -12,9 +15,15 @@ jest.mock("@/storage/reminder", () => ({
   scheduleReminder: jest.fn(),
 }));
 
-const getReminderSettingsMock = getReminderSettings as jest.MockedFunction<typeof getReminderSettings>;
-const saveReminderSettingsMock = saveReminderSettings as jest.MockedFunction<typeof saveReminderSettings>;
-const scheduleReminderMock = scheduleReminder as jest.MockedFunction<typeof scheduleReminder>;
+const getReminderSettingsMock = getReminderSettings as jest.MockedFunction<
+  typeof getReminderSettings
+>;
+const saveReminderSettingsMock = saveReminderSettings as jest.MockedFunction<
+  typeof saveReminderSettings
+>;
+const scheduleReminderMock = scheduleReminder as jest.MockedFunction<
+  typeof scheduleReminder
+>;
 
 describe("useReminder", () => {
   beforeEach(() => {

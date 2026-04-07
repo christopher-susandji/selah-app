@@ -1,9 +1,11 @@
-import { act, renderHook } from "@testing-library/react-native";
 import { useAppState } from "@/hooks/useAppState";
+import { act, renderHook } from "@testing-library/react-native";
 import { AppState } from "react-native";
 
 const mockRemove = jest.fn();
-let mockAppStateListener: ((nextState: "active" | "inactive" | "background") => void) | undefined;
+let mockAppStateListener:
+  | ((nextState: "active" | "inactive" | "background") => void)
+  | undefined;
 
 let addEventListenerSpy: jest.SpiedFunction<typeof AppState.addEventListener>;
 
@@ -21,7 +23,7 @@ describe("useAppState", () => {
       .spyOn(AppState, "addEventListener")
       .mockImplementation((_, listener) => {
         mockAppStateListener = listener as (
-          nextState: "active" | "inactive" | "background"
+          nextState: "active" | "inactive" | "background",
         ) => void;
 
         return {

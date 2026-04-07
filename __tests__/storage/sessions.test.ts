@@ -1,11 +1,11 @@
 import {
-  clearSessionInProgress,
-  getAllSessions,
-  getInterruptedSession,
-  getSessionsByDate,
-  markSessionInProgress,
-  saveSession,
-  syncExistingSessions,
+    clearSessionInProgress,
+    getAllSessions,
+    getInterruptedSession,
+    getSessionsByDate,
+    markSessionInProgress,
+    saveSession,
+    syncExistingSessions,
 } from "@/storage/sessions";
 import type { Session } from "@/types/session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -71,7 +71,9 @@ describe("storage/sessions", () => {
   });
 
   it("saves new session at the beginning of list", async () => {
-    mockGetItem.mockResolvedValue(JSON.stringify([{ ...sampleSession, id: "older" }]));
+    mockGetItem.mockResolvedValue(
+      JSON.stringify([{ ...sampleSession, id: "older" }]),
+    );
     mockSetItem.mockResolvedValue(undefined);
     mockGetSession.mockResolvedValue({ data: { session: null } });
 
@@ -86,7 +88,9 @@ describe("storage/sessions", () => {
   it("syncs saved session when authenticated user exists", async () => {
     mockGetItem.mockResolvedValue(JSON.stringify([]));
     mockSetItem.mockResolvedValue(undefined);
-    mockGetSession.mockResolvedValue({ data: { session: { user: { id: "u1" } } } });
+    mockGetSession.mockResolvedValue({
+      data: { session: { user: { id: "u1" } } },
+    });
     mockSyncSession.mockResolvedValue(undefined);
 
     await saveSession(sampleSession);
@@ -103,7 +107,9 @@ describe("storage/sessions", () => {
       ]),
     );
 
-    await expect(getSessionsByDate("2026-04-07")).resolves.toEqual([sampleSession]);
+    await expect(getSessionsByDate("2026-04-07")).resolves.toEqual([
+      sampleSession,
+    ]);
   });
 
   it("manages interrupted session key", async () => {
@@ -124,7 +130,9 @@ describe("storage/sessions", () => {
   });
 
   it("syncExistingSessions uploads local sessions for signed-in user", async () => {
-    mockGetSession.mockResolvedValue({ data: { session: { user: { id: "u1" } } } });
+    mockGetSession.mockResolvedValue({
+      data: { session: { user: { id: "u1" } } },
+    });
     mockGetItem.mockResolvedValue(JSON.stringify([sampleSession]));
     mockSyncAllSessions.mockResolvedValue(undefined);
 

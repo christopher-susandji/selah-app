@@ -1,6 +1,6 @@
 import {
-  getReminderSettings,
-  saveReminderSettings,
+    getReminderSettings,
+    saveReminderSettings,
 } from "@/storage/notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

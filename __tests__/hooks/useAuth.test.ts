@@ -1,5 +1,5 @@
-import { act, renderHook, waitFor } from "@testing-library/react-native";
 import { useAuth } from "@/hooks/useAuth";
+import { act, renderHook, waitFor } from "@testing-library/react-native";
 
 const mockGetSession = jest.fn();
 const mockUnsubscribe = jest.fn();

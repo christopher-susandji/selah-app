@@ -1,5 +1,5 @@
-import { renderHook } from "@testing-library/react-native";
 import { useConditionalKeepAwake } from "@/hooks/useKeepAwake";
+import { renderHook } from "@testing-library/react-native";
 import { useKeepAwake } from "expo-keep-awake";
 
 jest.mock("expo-keep-awake", () => ({
@@ -9,7 +9,8 @@ jest.mock("expo-keep-awake", () => ({
 describe("useConditionalKeepAwake", () => {
   it("passes a tag only when active", () => {
     const { rerender } = renderHook(
-      ({ isActive }: { isActive: boolean }) => useConditionalKeepAwake(isActive),
+      ({ isActive }: { isActive: boolean }) =>
+        useConditionalKeepAwake(isActive),
       { initialProps: { isActive: true } },
     );
 

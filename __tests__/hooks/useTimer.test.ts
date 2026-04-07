@@ -1,5 +1,5 @@
-import { act, renderHook } from "@testing-library/react-native";
 import { useTimer } from "@/hooks/useTimer";
+import { act, renderHook } from "@testing-library/react-native";
 
 describe("useTimer", () => {
   beforeEach(() => {

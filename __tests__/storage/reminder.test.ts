@@ -7,17 +7,20 @@ jest.mock("expo-notifications", () => ({
   SchedulableTriggerInputTypes: { DAILY: "daily" },
 }));
 
-import * as Notifications from "expo-notifications";
 import {
-  cancelReminder,
-  requestNotificationPermissions,
-  scheduleReminder,
+    cancelReminder,
+    requestNotificationPermissions,
+    scheduleReminder,
 } from "@/storage/reminder";
+import * as Notifications from "expo-notifications";
 
 const mockGetPermissionsAsync = Notifications.getPermissionsAsync as jest.Mock;
-const mockRequestPermissionsAsync = Notifications.requestPermissionsAsync as jest.Mock;
-const mockScheduleNotificationAsync = Notifications.scheduleNotificationAsync as jest.Mock;
-const mockCancelAll = Notifications.cancelAllScheduledNotificationsAsync as jest.Mock;
+const mockRequestPermissionsAsync =
+  Notifications.requestPermissionsAsync as jest.Mock;
+const mockScheduleNotificationAsync =
+  Notifications.scheduleNotificationAsync as jest.Mock;
+const mockCancelAll =
+  Notifications.cancelAllScheduledNotificationsAsync as jest.Mock;
 
 describe("storage/reminder", () => {
   beforeEach(() => {

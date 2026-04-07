@@ -28,7 +28,10 @@ describe("storage/auth", () => {
 
     await expect(signInWithEmail("a@b.com", "pw")).resolves.toBeUndefined();
 
-    expect(mockSignIn).toHaveBeenCalledWith({ email: "a@b.com", password: "pw" });
+    expect(mockSignIn).toHaveBeenCalledWith({
+      email: "a@b.com",
+      password: "pw",
+    });
   });
 
   it("signInWithEmail throws when supabase returns an error", async () => {

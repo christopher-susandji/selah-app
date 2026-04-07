@@ -1,6 +1,6 @@
 import {
-  hasCompletedOnboarding,
-  markOnboardingComplete,
+    hasCompletedOnboarding,
+    markOnboardingComplete,
 } from "@/storage/onboarding";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -35,6 +35,9 @@ describe("storage/onboarding", () => {
 
     await markOnboardingComplete();
 
-    expect(mockSetItem).toHaveBeenCalledWith("@selah/onboarding_complete", "true");
+    expect(mockSetItem).toHaveBeenCalledWith(
+      "@selah/onboarding_complete",
+      "true",
+    );
   });
 });
