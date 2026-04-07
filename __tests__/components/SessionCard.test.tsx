@@ -22,7 +22,7 @@ describe("SessionCard", () => {
     expect(getByText("2m 5s")).toBeTruthy();
     expect(getByText("2 distractions")).toBeTruthy();
     expect(getByText("left app 1x")).toBeTruthy();
-    expect(getByText('"Steadier than yesterday"')).toBeTruthy();
+    expect(getByText("Steadier than yesterday")).toBeTruthy();
   });
 
   it("hides leave-app and reflection when unavailable", () => {
